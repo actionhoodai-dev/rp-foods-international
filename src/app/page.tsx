@@ -1,65 +1,82 @@
-import Image from "next/image";
+import { seedInitialData, getCompanySettings, getCategories, getProducts } from "@/lib/firebase/db";
+import Hero from "@/components/home/Hero";
+import Stats from "@/components/home/Stats";
+import AboutSection from "@/components/home/AboutSection";
+import CategoriesShowcase from "@/components/home/CategoriesShowcase";
+import FeaturedProducts from "@/components/home/FeaturedProducts";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
+import ExportMap from "@/components/home/ExportMap";
+import InquiryCTA from "@/components/home/InquiryCTA";
+import { CompanySettings } from "@/types";
 
-export default function Home() {
+const defaultSettings: CompanySettings = {
+  name: "RP Foods International",
+  phoneNumbers: ["8778522332", "9994524443"],
+  email: "rpfoodspowder@gmail.com",
+  address: "51B/141, Kumaran Thiru Nagar, Dindigul – 624005, Tamil Nadu, India",
+  googleMapsUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.3644026857134!2d77.965412!3d10.370334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00ab4358bb3c9b%3A0xc3b83ef34d3d81b8!2sDindigul%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+  socialLinks: {},
+  hero: {
+    title: "Delivering Authentic Indian Spice Excellence Across Global Markets",
+    subtitle: "Premium Spice Powders, Masalas, and Culinary Blends Manufactured to International Quality Standards.",
+  },
+  about: {
+    title: "Pioneering Indian Food Export Since Inception",
+    story: "RP Foods International is a premier exporter and manufacturer of high-quality spice powders and masalas based in Dindigul, Tamil Nadu. Committed to delivering the rich heritage of Indian flavors to kitchens worldwide, we maintain rigorous processing quality, authentic taste profiles, and modern hygienic packaging standards to satisfy global expectations.",
+    mission: "To process and supply premium, hygienic, and pure spice blends across international borders, establishing Indian agricultural and manufacturing excellence globally.",
+    vision: "To become the preferred global partner for authentic Indian spices, trusted by importers, supermarkets, and food services worldwide for consistency, quality, and food safety standards.",
+  },
+  footer: {
+    copyright: "© 2026 RP Foods International. All Rights Reserved.",
+    text: "Premium Exporter of Pure Spice Powders and Authentic Blends from Tamil Nadu, India.",
+  },
+  seo: {
+    metaTitle: "Premium Spice Powders & Masalas Exporter - RP Foods International",
+    metaDescription: "RP Foods International is a premium exporter of authentic Indian spice powders, masalas, and blends based in Dindigul, Tamil Nadu. Delivering quality standard spices globally.",
+    keywords: "RP Foods, Spice Exporter, Indian Masala, Sambar Powder, Chilli Powder, Turmeric Powder, Curry Powder, Export Masala Dindigul, Tamil Nadu Spices",
+  },
+};
+
+export default async function Home() {
+  // 1. Auto-seed if database settings do not exist
+  await seedInitialData();
+
+  // 2. Query Firestore data for Homepage sections
+  const settings = await getCompanySettings() || defaultSettings;
+  const rawCategories = await getCategories(true); // only active categories
+  const rawProducts = await getProducts(undefined, true); // only published products
+
+  // 3. Enrich categories with their active product counts
+  const categoriesWithCounts = rawCategories.map(cat => ({
+    ...cat,
+    productCount: rawProducts.filter(prod => prod.categoryId === cat.id).length
+  }));
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="w-full min-h-screen overflow-x-hidden">
+      {/* SECTION 1: Hero Banner */}
+      <Hero />
+
+      {/* SECTION 2: Scroll counters */}
+      <Stats />
+
+      {/* SECTION 3: About details & Quality stats */}
+      <AboutSection settings={settings} />
+
+      {/* SECTION 4: Categories Grid */}
+      <CategoriesShowcase categories={categoriesWithCounts} />
+
+      {/* SECTION 5: Featured Products list */}
+      <FeaturedProducts products={rawProducts} />
+
+      {/* SECTION 6: Company Strengths / Why Us cards */}
+      <WhyChooseUs />
+
+      {/* SECTION 7: Route details interactive map */}
+      <ExportMap />
+
+      {/* SECTION 8: Inquiry Call to Action */}
+      <InquiryCTA />
     </div>
   );
 }
