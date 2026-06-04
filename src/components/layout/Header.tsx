@@ -31,6 +31,18 @@ export default function Header({ companyName, phone }: HeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Prevent background scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
@@ -39,19 +51,19 @@ export default function Header({ companyName, phone }: HeaderProps) {
   ];
 
   // Logic to determine text and bg colors based on scroll and page
-  const headerBg = isScrolled 
-    ? "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-4" 
+  const headerBg = isOpen || isScrolled 
+    ? "bg-white border-b border-gray-100 shadow-sm py-4" 
     : isHome 
       ? "bg-transparent py-6" 
       : "bg-white border-b border-gray-100 py-5";
 
-  const textColor = isScrolled
+  const textColor = isOpen || isScrolled
     ? "text-charcoal hover:text-maroon"
     : isHome
       ? "text-white/90 hover:text-white"
       : "text-charcoal hover:text-maroon";
 
-  const logoColor = isScrolled
+  const logoColor = isOpen || isScrolled
     ? "text-maroon"
     : isHome
       ? "text-white"
@@ -60,7 +72,7 @@ export default function Header({ companyName, phone }: HeaderProps) {
   const activeLinkClass = (href: string) => {
     const isActive = pathname === href;
     if (isActive) {
-      return isScrolled || !isHome
+      return isOpen || isScrolled || !isHome
         ? "text-maroon font-semibold border-b-2 border-maroon pb-1"
         : "text-gold font-semibold border-b-2 border-gold pb-1";
     }
@@ -68,67 +80,69 @@ export default function Header({ companyName, phone }: HeaderProps) {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerBg}`}>
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className={`p-1.5 rounded bg-maroon text-gold transition-colors duration-300 ${isScrolled ? "bg-maroon" : isHome ? "bg-white/10 border border-white/20" : "bg-maroon"}`}>
-              <Globe className="h-6 w-6 animate-pulse" />
-            </div>
-            <div className="flex flex-col">
-              <span className={`text-xl font-bold tracking-wider font-heading leading-tight transition-colors duration-300 ${logoColor}`}>
-                {companyName}
-              </span>
-              <span className={`text-[9px] uppercase tracking-widest transition-colors duration-300 ${isScrolled ? "text-gray-500" : isHome ? "text-white/65" : "text-gray-500"}`}>
-                Global Export Excellence
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-sm tracking-wide transition-all duration-300 ${textColor} ${activeLinkClass(link.href)}`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href="/contact">
-              <Button 
-                className="rounded-none font-semibold tracking-wider text-xs uppercase px-6 py-5 bg-maroon text-white hover:bg-maroon-dark border-none transition-all duration-300"
-              >
-                Get Quotation <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+    <>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerBg}`}>
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className={`p-1.5 rounded bg-maroon text-gold transition-colors duration-300 ${isOpen || isScrolled ? "bg-maroon" : isHome ? "bg-white/10 border border-white/20" : "bg-maroon"}`}>
+                <Globe className="h-6 w-6 animate-pulse" />
+              </div>
+              <div className="flex flex-col">
+                <span className={`text-xl font-bold tracking-wider font-heading leading-tight transition-colors duration-300 ${logoColor}`}>
+                  {companyName}
+                </span>
+                <span className={`text-[9px] uppercase tracking-widest transition-colors duration-300 ${isOpen || isScrolled ? "text-gray-500" : isHome ? "text-white/65" : "text-gray-500"}`}>
+                  Global Export Excellence
+                </span>
+              </div>
             </Link>
-          </div>
 
-          {/* Mobile Hamburguer Menu */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 focus:outline-none"
-            aria-label="Toggle Menu"
-          >
-            {isOpen ? (
-              <X className={`h-6 w-6 ${isHome && !isScrolled && !isOpen ? "text-white" : "text-charcoal"}`} />
-            ) : (
-              <Menu className={`h-6 w-6 ${isHome && !isScrolled ? "text-white" : "text-charcoal"}`} />
-            )}
-          </button>
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-sm tracking-wide transition-all duration-300 ${textColor} ${activeLinkClass(link.href)}`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center gap-4">
+              <Link href="/contact">
+                <Button 
+                  className="rounded-none font-semibold tracking-wider text-xs uppercase px-6 py-5 bg-maroon text-white hover:bg-maroon-dark border-none transition-all duration-300"
+                >
+                  Get Quotation <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+
+            {/* Mobile Hamburguer Menu */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 focus:outline-none"
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? (
+                <X className="h-6 w-6 text-charcoal" />
+              ) : (
+                <Menu className={`h-6 w-6 ${isHome && !isScrolled ? "text-white" : "text-charcoal"}`} />
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Mobile Drawer */}
       {isOpen && (
         <div 
-          className="md:hidden fixed inset-x-0 bottom-0 top-[70px] z-50 flex flex-col p-6 animate-in fade-in slide-in-from-top duration-300 border-t border-gray-100 overflow-y-auto"
+          className="md:hidden fixed inset-0 z-40 flex flex-col p-6 pt-24 animate-in fade-in slide-in-from-top duration-300 overflow-y-auto"
           style={{ backgroundColor: "#ffffff" }}
         >
           <nav className="flex flex-col gap-6 text-lg font-semibold text-charcoal">
@@ -156,6 +170,6 @@ export default function Header({ companyName, phone }: HeaderProps) {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }
