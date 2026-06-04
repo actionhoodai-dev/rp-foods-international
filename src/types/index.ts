@@ -31,6 +31,7 @@ export interface CompanySettings {
     metaDescription: string;
     keywords: string;
     ogImage?: string;
+    googleVerification?: string;
   };
 }
 

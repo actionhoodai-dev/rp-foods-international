@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { getCompanySettings } from "@/lib/firebase/db";
 import ProductInquiryForm from "@/components/products/ProductInquiryForm";
 import { CompanySettings } from "@/types";
+import type { Metadata } from "next";
 
 const defaultSettings: CompanySettings = {
   name: "RP Foods International",
@@ -31,11 +32,27 @@ const defaultSettings: CompanySettings = {
   }
 };
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const settings = await getCompanySettings() || defaultSettings;
+  const titleText = "Contact Spice Export House - RP Foods International";
+  const descText = `Connect with RP Foods International. Reach our export coordinates: Phone ${settings.phoneNumbers.join(", ")}, Email ${settings.email}. Location Dindigul, Tamil Nadu, India.`;
   return {
-    title: "Contact Us - Global Spice Exporters Desk",
-    description: `Connect with RP Foods International. Reach our export coordinates: Phone ${settings.phoneNumbers.join(", ")}, Email ${settings.email}. Location Dindigul, Tamil Nadu, India.`,
+    title: titleText,
+    description: descText,
+    alternates: {
+      canonical: "https://www.rpfoodsinternational.com/contact",
+    },
+    openGraph: {
+      title: titleText,
+      description: descText,
+      url: "https://www.rpfoodsinternational.com/contact",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titleText,
+      description: descText,
+    },
   };
 }
 

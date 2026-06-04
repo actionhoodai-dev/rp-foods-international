@@ -2,6 +2,7 @@ import { Ship, Plane, ShieldCheck, MapPin, Globe2, Compass, Layers, CheckCircle2
 import Link from "next/link";
 import { getCompanySettings } from "@/lib/firebase/db";
 import { CompanySettings } from "@/types";
+import type { Metadata } from "next";
 
 const defaultSettings: CompanySettings = {
   name: "RP Foods International",
@@ -20,10 +21,26 @@ const defaultSettings: CompanySettings = {
   }
 };
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
+  const titleText = "Global Reach - Export Logistics & Shipping Footprint";
+  const descText = "Explore our global export supply chain: container ports, shipping transit times, packaging materials, and international custom compliance.";
   return {
-    title: "Global Reach - Export Logistics & Shipping Footprint",
-    description: "Explore our global export supply chain: container ports, shipping transit times, packaging materials, and international custom compliance.",
+    title: titleText,
+    description: descText,
+    alternates: {
+      canonical: "https://www.rpfoodsinternational.com/reach",
+    },
+    openGraph: {
+      title: titleText,
+      description: descText,
+      url: "https://www.rpfoodsinternational.com/reach",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titleText,
+      description: descText,
+    },
   };
 }
 

@@ -7,6 +7,7 @@ import WhyChooseUs from "@/components/home/WhyChooseUs";
 import ExportMap from "@/components/home/ExportMap";
 import InquiryCTA from "@/components/home/InquiryCTA";
 import { CompanySettings } from "@/types";
+import type { Metadata } from "next";
 
 const defaultSettings: CompanySettings = {
   name: "RP Foods International",
@@ -33,8 +34,24 @@ const defaultSettings: CompanySettings = {
     metaTitle: "Premium Spice Powders & Masalas Exporter - RP Foods International",
     metaDescription: "RP Foods International is a premium exporter of authentic Indian spice powders, masalas, and blends based in Dindigul, Tamil Nadu. Delivering quality standard spices globally.",
     keywords: "RP Foods, Spice Exporter, Indian Masala, Sambar Powder, Chilli Powder, Turmeric Powder, Curry Powder, Export Masala Dindigul, Tamil Nadu Spices",
+    googleVerification: "",
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getCompanySettings() || defaultSettings;
+  return {
+    alternates: {
+      canonical: "https://www.rpfoodsinternational.com",
+    },
+    openGraph: {
+      title: settings.seo.metaTitle,
+      description: settings.seo.metaDescription,
+      url: "https://www.rpfoodsinternational.com",
+      images: settings.seo.ogImage ? [{ url: settings.seo.ogImage }] : [],
+    },
+  };
+}
 
 export default async function Home() {
   // 1. Auto-seed if database settings do not exist
@@ -51,8 +68,62 @@ export default async function Home() {
     productCount: rawProducts.filter(prod => prod.categoryId === cat.id).length
   }));
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": settings.name,
+    "url": "https://www.rpfoodsinternational.com",
+    "logo": "https://www.rpfoodsinternational.com/images/logo_mascot.jpg",
+    "sameAs": [
+      settings.socialLinks.facebook || "",
+      settings.socialLinks.twitter || "",
+      settings.socialLinks.instagram || "",
+      settings.socialLinks.linkedin || ""
+    ].filter(url => url !== ""),
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": settings.phoneNumbers[0] || "",
+      "contactType": "customer service",
+      "areaServed": "Worldwide",
+      "availableLanguage": ["en", "ta"]
+    }
+  };
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "FoodEstablishment",
+    "name": settings.name,
+    "image": "https://www.rpfoodsinternational.com/images/logo_mascot.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": settings.address,
+      "addressLocality": "Dindigul",
+      "addressRegion": "Tamil Nadu",
+      "postalCode": "624005",
+      "addressCountry": "IN"
+    },
+    "url": "https://www.rpfoodsinternational.com",
+    "telephone": settings.phoneNumbers[0] || "",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+      ],
+      "opens": "09:00",
+      "closes": "18:00"
+    }
+  };
+
   return (
     <div className="w-full min-h-screen overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
       {/* SECTION 1: Hero Banner */}
       <Hero />
 

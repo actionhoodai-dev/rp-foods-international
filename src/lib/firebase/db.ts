@@ -215,7 +215,8 @@ export async function seedInitialData(force = false): Promise<void> {
         metaTitle: "Premium Spice Powders & Masalas Exporter - RP Foods International",
         metaDescription: "RP Foods International is a premium exporter of authentic Indian spice powders, masalas, and blends based in Dindigul, Tamil Nadu. Delivering quality standard spices globally.",
         keywords: "RP Foods, Spice Exporter, Indian Masala, Sambar Powder, Chilli Powder, Turmeric Powder, Curry Powder, Export Masala Dindigul, Tamil Nadu Spices",
-        ogImage: "https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/seo/og-home.jpg"
+        ogImage: "https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/seo/og-home.jpg",
+        googleVerification: ""
       }
     };
     await updateCompanySettings(initialSettings);

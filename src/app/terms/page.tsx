@@ -1,5 +1,26 @@
-export async function generateMetadata() {
-  return { title: "Terms of Service | RP Foods International" };
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const titleText = "Terms of Service | RP Foods International";
+  const descText = "Review the Terms of Service governing the use of RP Foods International website, trading quotes, and sample requests.";
+  return {
+    title: titleText,
+    description: descText,
+    alternates: {
+      canonical: "https://www.rpfoodsinternational.com/terms",
+    },
+    openGraph: {
+      title: titleText,
+      description: descText,
+      url: "https://www.rpfoodsinternational.com/terms",
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: titleText,
+      description: descText,
+    },
+  };
 }
 
 export default function TermsPage() {

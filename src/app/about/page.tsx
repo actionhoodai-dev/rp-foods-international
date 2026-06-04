@@ -2,6 +2,7 @@ import { Globe, Award, ShieldCheck, HeartHandshake, Leaf, Ship, ChevronRight } f
 import Link from "next/link";
 import { getCompanySettings } from "@/lib/firebase/db";
 import { CompanySettings } from "@/types";
+import type { Metadata } from "next";
 
 const defaultSettings: CompanySettings = {
   name: "RP Foods International",
@@ -31,10 +32,26 @@ const defaultSettings: CompanySettings = {
   }
 };
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
+  const titleText = "About Us - International Spice Exporter Credentials";
+  const descText = "Learn more about RP Foods International: our quality standards, hygienic milling processes, global footprints, and commitments to food safety.";
   return {
-    title: "About Us - International Spice Exporter Credentials",
-    description: "Learn more about RP Foods International: our quality standards, hygienic milling processes, global footprints, and commitments to food safety.",
+    title: titleText,
+    description: descText,
+    alternates: {
+      canonical: "https://www.rpfoodsinternational.com/about",
+    },
+    openGraph: {
+      title: titleText,
+      description: descText,
+      url: "https://www.rpfoodsinternational.com/about",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titleText,
+      description: descText,
+    },
   };
 }
 

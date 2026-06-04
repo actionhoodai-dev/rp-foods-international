@@ -42,6 +42,7 @@ export default function AdminSettingsPage() {
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDesc, setSeoDesc] = useState("");
   const [seoKeywords, setSeoKeywords] = useState("");
+  const [seoGoogleVerification, setSeoGoogleVerification] = useState("");
 
   const loadSettings = async () => {
     setLoading(true);
@@ -72,6 +73,7 @@ export default function AdminSettingsPage() {
         setSeoTitle(data.seo.metaTitle);
         setSeoDesc(data.seo.metaDescription);
         setSeoKeywords(data.seo.keywords);
+        setSeoGoogleVerification(data.seo.googleVerification || "");
       }
     } catch (err) {
       console.error("Error loading settings:", err);
@@ -118,6 +120,7 @@ export default function AdminSettingsPage() {
           metaTitle: seoTitle.trim(),
           metaDescription: seoDesc.trim(),
           keywords: seoKeywords.trim(),
+          googleVerification: seoGoogleVerification.trim(),
         },
       };
 
@@ -324,6 +327,11 @@ export default function AdminSettingsPage() {
                 <div className="flex flex-col gap-1.5">
                   <Label className="text-[10px] uppercase font-bold text-gray-400">Meta Keywords (Comma separated)</Label>
                   <Input value={seoKeywords} onChange={(e) => setSeoKeywords(e.target.value)} placeholder="spice exporter, sambar powder wholesale..." required className="rounded-none border-gray-300" />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <Label className="text-[10px] uppercase font-bold text-gray-400">Google Site Verification Code (Google Search Console)</Label>
+                  <Input value={seoGoogleVerification} onChange={(e) => setSeoGoogleVerification(e.target.value)} placeholder="e.g. google-site-verification-hash" className="rounded-none border-gray-300 text-xs" />
                 </div>
 
               </CardContent>

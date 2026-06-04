@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight, Shield, Award, Package, Clock } from "lucide-react";
+import type { Metadata } from "next";
 import { getProductBySlug, getProducts, getCategories } from "@/lib/firebase/db";
 import ProductInquiryForm from "@/components/products/ProductInquiryForm";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -9,20 +10,35 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: ProductPageProps) {
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const product = await getProductBySlug(resolvedParams.slug);
   if (!product) return { title: "Product Not Found" };
 
+  const titleText = `${product.seo.title || product.name} - Exporter`;
+  const descText = product.seo.description || product.shortDescription;
+  const canonicalUrl = `https://www.rpfoodsinternational.com/products/${product.slug}`;
+
   return {
-    title: `${product.seo.title || product.name} - Exporter`,
-    description: product.seo.description || product.shortDescription,
+    title: titleText,
+    description: descText,
     keywords: product.seo.keywords || `${product.name}, indian spices export, pure spices`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
-      title: product.seo.title || product.name,
-      description: product.seo.description || product.shortDescription,
+      title: titleText,
+      description: descText,
+      url: canonicalUrl,
       images: product.images?.[0] ? [{ url: product.images[0] }] : [],
-    }
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titleText,
+      description: descText,
+      images: product.images?.[0] ? [product.images[0]] : [],
+    },
   };
 }
 
@@ -75,12 +91,47 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     }
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.rpfoodsinternational.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Products",
+        "item": "https://www.rpfoodsinternational.com/products"
+      },
+      ...(category ? [{
+        "@type": "ListItem",
+        "position": 3,
+        "name": category.name,
+        "item": `https://www.rpfoodsinternational.com/products?category=${category.slug}`
+      }] : []),
+      {
+        "@type": "ListItem",
+        "position": category ? 4 : 3,
+        "name": product.name,
+        "item": `https://www.rpfoodsinternational.com/products/${product.slug}`
+      }
+    ]
+  };
+
   return (
     <div className="bg-white min-h-screen pt-28 pb-20">
-      {/* Inject SEO JSON-LD schema */}
+      {/* Inject SEO JSON-LD schemas */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">

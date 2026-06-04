@@ -54,6 +54,7 @@ const defaultSettings: CompanySettings = {
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getCompanySettings() || defaultSettings;
   return {
+    metadataBase: new URL("https://www.rpfoodsinternational.com"),
     title: {
       default: settings.seo.metaTitle,
       template: `%s | ${settings.name}`,
@@ -63,7 +64,19 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: settings.seo.metaTitle,
       description: settings.seo.metaDescription,
-      images: settings.seo.ogImage ? [{ url: settings.seo.ogImage }] : [],
+      url: "https://www.rpfoodsinternational.com",
+      siteName: settings.name,
+      images: settings.seo.ogImage ? [{ url: settings.seo.ogImage, width: 1200, height: 630 }] : [],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: settings.seo.metaTitle,
+      description: settings.seo.metaDescription,
+      images: settings.seo.ogImage ? [settings.seo.ogImage] : [],
+    },
+    verification: {
+      google: settings.seo.googleVerification || undefined,
     },
   };
 }

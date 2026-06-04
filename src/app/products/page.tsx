@@ -1,14 +1,31 @@
 import { getCategories, getProducts } from "@/lib/firebase/db";
 import ProductGrid from "@/components/products/ProductGrid";
+import type { Metadata } from "next";
 
 interface ProductsPageProps {
   searchParams: Promise<{ category?: string }>;
 }
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
+  const titleText = "Our Premium Spice Powders & Masalas Range";
+  const descText = "Explore the comprehensive export catalog of RP Foods International including Sambar Powder, Chilli Powder, Turmeric, Garam Masala, and Chicken 65 mixes.";
   return {
-    title: "Our Premium Spice Powders & Masalas Range",
-    description: "Explore the comprehensive export catalog of RP Foods International including Sambar Powder, Chilli Powder, Turmeric, Garam Masala, and Chicken 65 mixes.",
+    title: titleText,
+    description: descText,
+    alternates: {
+      canonical: "https://www.rpfoodsinternational.com/products",
+    },
+    openGraph: {
+      title: titleText,
+      description: descText,
+      url: "https://www.rpfoodsinternational.com/products",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titleText,
+      description: descText,
+    },
   };
 }
 
@@ -21,8 +38,31 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const categories = await getCategories(true); // only active categories
   const products = await getProducts(undefined, true); // only published products
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.rpfoodsinternational.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Products",
+        "item": "https://www.rpfoodsinternational.com/products"
+      }
+    ]
+  };
+
   return (
     <div className="bg-white min-h-screen pt-28 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       
       {/* Banner / Header */}
       <div className="relative py-24 mb-12 bg-cover bg-center overflow-hidden bg-[url('/images/products_hero.png')]">

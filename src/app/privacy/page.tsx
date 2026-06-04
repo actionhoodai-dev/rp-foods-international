@@ -1,5 +1,26 @@
-export async function generateMetadata() {
-  return { title: "Privacy Policy | RP Foods International" };
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const titleText = "Privacy Policy | RP Foods International";
+  const descText = "Read the Privacy Policy of RP Foods International. Understand how we collect, store, and protect your company information.";
+  return {
+    title: titleText,
+    description: descText,
+    alternates: {
+      canonical: "https://www.rpfoodsinternational.com/privacy",
+    },
+    openGraph: {
+      title: titleText,
+      description: descText,
+      url: "https://www.rpfoodsinternational.com/privacy",
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: titleText,
+      description: descText,
+    },
+  };
 }
 
 export default function PrivacyPolicyPage() {
