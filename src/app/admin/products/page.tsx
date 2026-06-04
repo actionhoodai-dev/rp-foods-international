@@ -332,7 +332,7 @@ export default function AdminProductsPage() {
     <div className="flex flex-col gap-8 w-full">
       
       {/* Top action block */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold font-heading text-charcoal">Product Registry</h1>
           <p className="text-xs text-gray-500 font-semibold leading-relaxed">
@@ -469,7 +469,7 @@ export default function AdminProductsPage() {
 
       {/* Edit/Create Form dialog Modal */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-5xl max-h-[85vh] overflow-y-auto rounded-none border-gray-200 shadow-2xl">
+        <DialogContent className="sm:max-w-5xl w-full max-h-[85vh] overflow-y-auto rounded-none border-gray-200 shadow-2xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold font-heading text-maroon">
               {editingProduct ? `Edit Product: ${editingProduct.name}` : "Add New Export Product"}

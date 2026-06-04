@@ -3,8 +3,8 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { getCompanySettings, getCategories } from "@/lib/firebase/db";
-import { CompanySettings, Category } from "@/types";
+import { getCompanySettings, getCategories, getProducts } from "@/lib/firebase/db";
+import { CompanySettings, Category, Product } from "@/types";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -84,13 +84,26 @@ export default async function RootLayout({
     console.error("Failed to load categories for root layout:", err);
   }
 
+  // Fetch published products dynamically
+  let products: Product[] = [];
+  try {
+    products = await getProducts(undefined, true);
+  } catch (err) {
+    console.error("Failed to load products for root layout:", err);
+  }
+
   return (
     <html
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-charcoal font-sans selection:bg-maroon selection:text-white">
-        <Header companyName={settings.name} phone={settings.phoneNumbers[0]} />
+        <Header 
+          companyName={settings.name} 
+          phone={settings.phoneNumbers[0]} 
+          categories={categories}
+          products={products}
+        />
         <main className="flex-grow">{children}</main>
         <Footer settings={settings} categories={categories} />
       </body>

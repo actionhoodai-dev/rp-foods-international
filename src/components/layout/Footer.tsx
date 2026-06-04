@@ -49,10 +49,13 @@ export default function Footer({ settings, categories = [] }: FooterProps) {
                 <Link href="/" className="hover:text-gold transition-colors duration-200">Home</Link>
               </li>
               <li>
+                <Link href="/about" className="hover:text-gold transition-colors duration-200">About Us</Link>
+              </li>
+              <li>
                 <Link href="/products" className="hover:text-gold transition-colors duration-200">Our Products</Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-gold transition-colors duration-200">About Us</Link>
+                <Link href="/reach" className="hover:text-gold transition-colors duration-200">Global Reach</Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-gold transition-colors duration-200">Contact Exporters</Link>

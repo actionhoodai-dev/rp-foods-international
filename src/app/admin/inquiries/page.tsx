@@ -216,7 +216,7 @@ export default function AdminInquiriesPage() {
       {/* dialog view detail Modal */}
       <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
         {selectedInquiry && (
-          <DialogContent className="max-w-xl rounded-none border-gray-200 shadow-2xl">
+          <DialogContent className="sm:max-w-xl w-full rounded-none border-gray-200 shadow-2xl">
             <DialogHeader className="border-b border-gray-100 pb-4">
               <div className="flex items-center gap-2 mb-2">
                 <span className={`text-[10px] uppercase font-extrabold px-2.5 py-0.5 border ${

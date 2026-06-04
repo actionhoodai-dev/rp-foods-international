@@ -195,7 +195,7 @@ export default function AdminCategoriesPage() {
   return (
     <div className="flex flex-col gap-8 w-full">
       {/* Page Title & Button */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold font-heading text-charcoal">Category Management</h1>
           <p className="text-xs text-gray-500 font-semibold leading-relaxed">
@@ -297,7 +297,7 @@ export default function AdminCategoriesPage() {
 
       {/* dialog Modal Form */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto rounded-none border-gray-200 shadow-2xl">
+        <DialogContent className="sm:max-w-4xl w-full max-h-[85vh] overflow-y-auto rounded-none border-gray-200 shadow-2xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold font-heading text-maroon">
               {editingCategory ? `Edit Category: ${editingCategory.name}` : "Create New Product Category"}

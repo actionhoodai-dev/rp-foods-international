@@ -6,12 +6,16 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { Category, Product } from "@/types";
+
 interface HeaderProps {
   companyName: string;
   phone: string;
+  categories?: Category[];
+  products?: Product[];
 }
 
-export default function Header({ companyName, phone }: HeaderProps) {
+export default function Header({ companyName, phone, categories = [], products = [] }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -48,8 +52,9 @@ export default function Header({ companyName, phone }: HeaderProps) {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Products", href: "/products" },
     { name: "About Us", href: "/about" },
+    { name: "Products", href: "/products" },
+    { name: "Global Reach", href: "/reach" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -104,15 +109,62 @@ export default function Header({ companyName, phone }: HeaderProps) {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`text-sm tracking-wide transition-all duration-300 ${textColor} ${activeLinkClass(link.href)}`}
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                if (link.name === "Products") {
+                  return (
+                    <div key={link.name} className="relative group py-2">
+                      <Link
+                        href={link.href}
+                        className={`text-sm tracking-wide transition-all duration-300 flex items-center gap-1 ${textColor} ${activeLinkClass(link.href)}`}
+                      >
+                        {link.name} <span className="text-[10px] select-none">▼</span>
+                      </Link>
+                      
+                      {/* Products Hover Dropdown */}
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 hidden group-hover:grid grid-cols-3 gap-6 bg-white p-6 shadow-2xl border border-gray-100 rounded-none w-[600px] z-50 text-charcoal text-left">
+                        {categories.map((cat) => {
+                          const catProducts = products.filter(p => p.categoryId === cat.id);
+                          return (
+                            <div key={cat.id} className="flex flex-col gap-2">
+                              <Link 
+                                href={`/products?category=${cat.slug}`}
+                                className="text-xs uppercase font-extrabold tracking-wider text-maroon hover:text-maroon-dark border-b border-gray-100 pb-1.5 transition-colors"
+                              >
+                                {cat.name}
+                              </Link>
+                              <div className="flex flex-col gap-1.5 mt-1">
+                                {catProducts.length === 0 ? (
+                                  <span className="text-[10px] text-gray-400 font-semibold italic">Coming soon</span>
+                                ) : (
+                                  catProducts.map((prod) => (
+                                    <Link
+                                      key={prod.id}
+                                      href={`/products/${prod.slug}`}
+                                      className="text-xs text-gray-600 hover:text-maroon hover:font-bold transition-all duration-150 py-0.5"
+                                    >
+                                      {prod.name}
+                                    </Link>
+                                  ))
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`text-sm tracking-wide transition-all duration-300 ${textColor} ${activeLinkClass(link.href)}`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Desktop Actions */}
@@ -148,17 +200,48 @@ export default function Header({ companyName, phone }: HeaderProps) {
           className="md:hidden fixed inset-0 z-40 flex flex-col p-6 pt-24 animate-in fade-in slide-in-from-top duration-300 overflow-y-auto"
           style={{ backgroundColor: "#ffffff" }}
         >
-          <nav className="flex flex-col gap-6 text-lg font-semibold text-charcoal">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className={`pb-2 border-b border-gray-100 hover:text-maroon ${pathname === link.href ? "text-maroon font-bold" : ""}`}
-              >
-                {link.name}
-              </Link>
-            ))}
+          <nav className="flex flex-col gap-5 text-lg font-semibold text-charcoal">
+            {navLinks.map((link) => {
+              if (link.name === "Products") {
+                return (
+                  <div key={link.name} className="flex flex-col">
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`pb-2 border-b border-gray-100 hover:text-maroon ${pathname === link.href ? "text-maroon font-bold" : ""}`}
+                    >
+                      {link.name}
+                    </Link>
+                    {/* Indented subsection list of products */}
+                    {products.length > 0 && (
+                      <div className="flex flex-col gap-3 pl-4 pt-3 pb-2 border-l-2 border-maroon/20 ml-2 mt-1">
+                        {products.map((prod) => (
+                          <Link
+                            key={prod.id}
+                            href={`/products/${prod.slug}`}
+                            onClick={() => setIsOpen(false)}
+                            className="text-sm font-medium text-gray-500 hover:text-maroon transition-all"
+                          >
+                            • {prod.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`pb-2 border-b border-gray-100 hover:text-maroon ${pathname === link.href ? "text-maroon font-bold" : ""}`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </nav>
           
           <div className="mt-8 flex flex-col gap-4">
