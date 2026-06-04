@@ -42,26 +42,24 @@ export default function Hero() {
       <motion.div 
         animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-[10%] w-16 h-16 opacity-30 md:opacity-50 pointer-events-none hidden sm:block"
+        className="absolute top-1/4 left-[10%] w-16 h-16 opacity-40 md:opacity-60 pointer-events-none hidden sm:block"
       >
         <img 
-          src="https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/banners/floating-star-anise.png" 
+          src="/images/star_anise.png" 
           alt="Star Anise" 
-          className="w-full h-full object-contain"
-          onError={(e) => (e.currentTarget.style.display = "none")} // fallback if CDN isn't ready
+          className="w-full h-full object-contain mix-blend-screen"
         />
       </motion.div>
 
       <motion.div 
         animate={{ y: [0, 20, 0], rotate: [0, -8, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-1/4 right-[10%] w-20 h-20 opacity-30 md:opacity-50 pointer-events-none hidden sm:block"
+        className="absolute bottom-1/4 right-[10%] w-20 h-20 opacity-40 md:opacity-60 pointer-events-none hidden sm:block"
       >
         <img 
-          src="https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/banners/floating-chilli.png" 
+          src="/images/red_chilli.png" 
           alt="Red Chilli" 
-          className="w-full h-full object-contain"
-          onError={(e) => (e.currentTarget.style.display = "none")}
+          className="w-full h-full object-contain mix-blend-screen"
         />
       </motion.div>
 
