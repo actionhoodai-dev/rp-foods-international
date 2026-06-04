@@ -26,9 +26,13 @@ export default function Footer({ settings, categories = [] }: FooterProps) {
           
           {/* Company Brief */}
           <div className="flex flex-col gap-4">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="p-1.5 rounded bg-maroon text-gold">
-                <Globe className="h-6 w-6" />
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="overflow-hidden h-10 w-10 rounded-full border border-gold/40 shadow-xs shrink-0 bg-white flex items-center justify-center">
+                <img 
+                  src="/images/logo_mascot.jpg" 
+                  alt="RP Foods Logo" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                />
               </div>
               <span className="text-xl font-bold tracking-wider font-heading text-white">
                 {settings.name}

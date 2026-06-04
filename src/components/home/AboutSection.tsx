@@ -31,12 +31,6 @@ export default function AboutSection({ settings }: AboutSectionProps) {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
-            <div className="absolute bottom-6 -right-6 bg-maroon text-white p-6 shadow-2xl max-w-xs border border-maroon-dark">
-              <p className="text-gold font-bold text-2xl mb-1">100% Pure</p>
-              <p className="text-xs uppercase tracking-widest text-white/80 font-semibold leading-relaxed">
-                Directly from source farms in Erode & Salem, processed under strict supervision.
-              </p>
-            </div>
           </div>
 
           {/* Right Column: About Details */}
