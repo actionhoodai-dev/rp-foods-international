@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { saveInquiry } from "@/lib/firebase/db";
+import { sendInquiryEmail } from "@/app/actions/email";
 
 // Inquiry Schema
 const inquirySchema = z.object({
@@ -48,19 +49,29 @@ export default function ProductInquiryForm({ productName, productSlug }: Product
   const onSubmit = async (data: InquiryFormValues) => {
     setIsSubmitting(true);
     try {
-      await saveInquiry({
+      const inquiryData = {
         name: data.name,
         email: data.email,
         phone: data.phone,
         companyName: data.companyName,
         country: data.country,
         message: data.message,
-        type: productName ? "product" : "general",
+        type: productName ? ("product" as const) : ("general" as const),
         productSlug: productSlug || "",
         productName: productName || "",
-        status: "new",
+        status: "new" as const,
         createdAt: new Date().toISOString()
-      });
+      };
+
+      await saveInquiry(inquiryData);
+
+      // Send direct email notification to administrator desk
+      try {
+        await sendInquiryEmail(inquiryData);
+      } catch (emailError) {
+        console.error("Email send failed:", emailError);
+      }
+
       setIsSuccess(true);
       reset();
     } catch (error) {
