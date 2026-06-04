@@ -151,19 +151,19 @@ export default async function ReachPage() {
           </div>
 
           <div className="lg:col-span-6">
-            <div className="relative border-4 border-gray-100 p-4 bg-gray-50 overflow-hidden shadow-lg group">
+            <div className="relative border-4 border-gray-100 bg-gray-50 overflow-hidden shadow-lg group aspect-[16/10] w-full min-h-[285px] sm:min-h-[350px]">
               <img 
-                src="https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/banners/world-map-grid.svg" 
+                src="/images/world_map_routes.png" 
                 alt="Global Shipping Routes Map" 
-                className="w-full h-auto object-cover opacity-75 group-hover:scale-105 transition-transform duration-700" 
+                className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-700" 
               />
-              <div className="absolute inset-0 bg-maroon/5 mix-blend-multiply" />
-              <div className="absolute bottom-6 left-6 right-6 bg-white p-4 shadow-xl border border-gray-100 flex items-center justify-between">
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm p-4 shadow-xl border border-gray-150 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-bold text-maroon">Export Loading Port</span>
-                  <span className="text-xs font-bold text-charcoal mt-0.5">Tuticorin (V.O.C) Port, India</span>
+                  <span className="text-[10px] uppercase font-bold text-maroon tracking-wider">Export Loading Port</span>
+                  <span className="text-xs font-extrabold text-charcoal mt-0.5">Tuticorin (V.O.C) Port, India</span>
                 </div>
-                <span className="text-[10px] bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 font-bold uppercase tracking-wider">Active Routes</span>
+                <span className="text-[10px] bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 font-bold uppercase tracking-wider shrink-0">Active Routes</span>
               </div>
             </div>
           </div>
