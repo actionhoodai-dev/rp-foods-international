@@ -1,6 +1,5 @@
 import { seedInitialData, getCompanySettings, getCategories, getProducts } from "@/lib/firebase/db";
 import Hero from "@/components/home/Hero";
-import Stats from "@/components/home/Stats";
 import AboutSection from "@/components/home/AboutSection";
 import CategoriesShowcase from "@/components/home/CategoriesShowcase";
 import FeaturedProducts from "@/components/home/FeaturedProducts";
@@ -11,7 +10,7 @@ import { CompanySettings } from "@/types";
 
 const defaultSettings: CompanySettings = {
   name: "RP Foods International",
-  phoneNumbers: ["8778522332", "9994524443"],
+  phoneNumbers: ["+91 8778522332", "+91 9994524443"],
   email: "rpfoodspowder@gmail.com",
   address: "51B/141, Kumaran Thiru Nagar, Dindigul – 624005, Tamil Nadu, India",
   googleMapsUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.3644026857134!2d77.965412!3d10.370334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00ab4358bb3c9b%3A0xc3b83ef34d3d81b8!2sDindigul%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
@@ -56,9 +55,6 @@ export default async function Home() {
     <div className="w-full min-h-screen overflow-x-hidden">
       {/* SECTION 1: Hero Banner */}
       <Hero />
-
-      {/* SECTION 2: Scroll counters */}
-      <Stats />
 
       {/* SECTION 3: About details & Quality stats */}
       <AboutSection settings={settings} />

@@ -118,8 +118,8 @@ export default function Hero() {
           className="mt-16 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-xs uppercase tracking-widest font-semibold text-gray-400"
         >
           <div className="flex flex-col gap-1 items-center">
-            <span className="text-white font-bold text-sm tracking-normal">ISO 22000</span>
-            <span>Food Safety</span>
+            <span className="text-white font-bold text-sm tracking-normal">PREMIUM GRADE</span>
+            <span>Export Quality</span>
           </div>
           <div className="flex flex-col gap-1 items-center">
             <span className="text-white font-bold text-sm tracking-normal">100% PURE</span>

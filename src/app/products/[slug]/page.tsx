@@ -153,7 +153,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               </div>
               <div className="flex items-center gap-3">
                 <Award className="h-5 w-5 text-maroon shrink-0" />
-                <span className="text-xs font-semibold text-gray-700">ISO 22000 Compliant</span>
+                <span className="text-xs font-semibold text-gray-700">Premium Export Quality</span>
               </div>
               <div className="flex items-center gap-3">
                 <Package className="h-5 w-5 text-maroon shrink-0" />

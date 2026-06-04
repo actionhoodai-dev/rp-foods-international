@@ -5,7 +5,7 @@ import { CompanySettings } from "@/types";
 
 const defaultSettings: CompanySettings = {
   name: "RP Foods International",
-  phoneNumbers: ["8778522332", "9994524443"],
+  phoneNumbers: ["+91 8778522332", "+91 9994524443"],
   email: "rpfoodspowder@gmail.com",
   address: "51B/141, Kumaran Thiru Nagar, Dindigul – 624005, Tamil Nadu, India",
   googleMapsUrl: "",

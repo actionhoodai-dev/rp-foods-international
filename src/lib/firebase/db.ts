@@ -185,7 +185,7 @@ export async function seedInitialData(force = false): Promise<void> {
     // 1. Seed settings
     const initialSettings: CompanySettings = {
       name: "RP Foods International",
-      phoneNumbers: ["8778522332", "9994524443"],
+      phoneNumbers: ["+91 8778522332", "+91 9994524443"],
       email: "rpfoodspowder@gmail.com",
       address: "51B/141, Kumaran Thiru Nagar, Dindigul – 624005, Tamil Nadu, India",
       googleMapsUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.3644026857134!2d77.965412!3d10.370334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00ab4358bb3c9b%3A0xc3b83ef34d3d81b8!2sDindigul%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",

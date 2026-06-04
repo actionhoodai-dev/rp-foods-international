@@ -10,7 +10,7 @@ export default function WhyChooseUs() {
     {
       icon: ShieldCheck,
       title: "Export Quality Standards",
-      desc: "Our processing facilities adhere to ISO 22000, HACCP, and Halal certifications, passing strict microbiological & heavy metal checks."
+      desc: "Our processing facilities adhere to strict food safety guidelines, passing rigorous microbiological & heavy metal checks."
     },
     {
       icon: Truck,

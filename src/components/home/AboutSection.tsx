@@ -7,8 +7,8 @@ interface AboutSectionProps {
 
 export default function AboutSection({ settings }: AboutSectionProps) {
   const standards = [
-    "HACCP Food Safety Guidelines Certified",
-    "ISO 22000 Quality Management Compliance",
+    "Pure Sourced Indian Masalas & Powders",
+    "Consistent Taste & Volatile Oils Preservation",
     "100% Traceable Farming Source Premium Quality",
     "Pesticide & Heavy-Metal Cleared Batches",
     "State-of-the-Art Hygienic Dehydration & Milling",

@@ -5,7 +5,7 @@ import { CompanySettings } from "@/types";
 
 const defaultSettings: CompanySettings = {
   name: "RP Foods International",
-  phoneNumbers: ["8778522332", "9994524443"],
+  phoneNumbers: ["+91 8778522332", "+91 9994524443"],
   email: "rpfoodspowder@gmail.com",
   address: "51B/141, Kumaran Thiru Nagar, Dindigul – 624005, Tamil Nadu, India",
   googleMapsUrl: "",
@@ -269,7 +269,7 @@ export default async function ReachPage() {
             <div className="flex flex-col gap-3 mt-2 border-t border-gray-150 pt-4">
               <div className="flex items-center gap-3">
                 <ShieldCheck className="h-5 w-5 text-gold-dark" />
-                <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">ISO 22000 & HACCP Compliant Facilities</span>
+                <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">Hygienic Modern Processing Facilities</span>
               </div>
               <div className="flex items-center gap-3">
                 <ShieldCheck className="h-5 w-5 text-gold-dark" />
