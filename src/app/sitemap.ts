@@ -56,12 +56,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Sitemap product fetch error:", err);
   }
 
-  const productRoutes = products.map((prod) => ({
-    url: `${baseUrl}/products/${prod.slug}`,
-    lastModified: new Date(prod.updatedAt || new Date()),
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
+  const productRoutes = products
+    .filter((prod) => prod.slug !== "tumeric-powder")
+    .map((prod) => ({
+      url: `${baseUrl}/products/${prod.slug}`,
+      lastModified: new Date(prod.updatedAt || new Date()),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }));
 
-  return [...staticRoutes, ...categoryRoutes, ...productRoutes];
+  // Deduplicate all routes to ensure each URL appears exactly once in sitemap.xml
+  const uniqueRoutesMap = new Map();
+  const allRoutes = [...staticRoutes, ...categoryRoutes, ...productRoutes];
+  for (const route of allRoutes) {
+    uniqueRoutesMap.set(route.url, route);
+  }
+
+  return Array.from(uniqueRoutesMap.values());
 }
