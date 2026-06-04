@@ -41,12 +41,13 @@ export async function updateCompanySettings(settings: CompanySettings): Promise<
 // --- Categories ---
 export async function getCategories(onlyEnabled = false): Promise<Category[]> {
   try {
-    let q = query(categoriesCol(), orderBy("name", "asc"));
-    if (onlyEnabled) {
-      q = query(categoriesCol(), where("enabled", "==", true), orderBy("name", "asc"));
-    }
+    const q = query(categoriesCol(), orderBy("name", "asc"));
     const snap = await getDocs(q);
-    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Category));
+    let list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Category));
+    if (onlyEnabled) {
+      list = list.filter(c => c.enabled === true);
+    }
+    return list;
   } catch (error) {
     console.error("Error getting categories:", error);
     return [];
@@ -81,16 +82,16 @@ export async function deleteCategory(id: string): Promise<void> {
 // --- Products ---
 export async function getProducts(categoryId?: string, onlyPublished = false): Promise<Product[]> {
   try {
-    let q = query(productsCol(), orderBy("name", "asc"));
-    if (categoryId && onlyPublished) {
-      q = query(productsCol(), where("categoryId", "==", categoryId), where("status", "==", "published"), orderBy("name", "asc"));
-    } else if (categoryId) {
-      q = query(productsCol(), where("categoryId", "==", categoryId), orderBy("name", "asc"));
-    } else if (onlyPublished) {
-      q = query(productsCol(), where("status", "==", "published"), orderBy("name", "asc"));
-    }
+    const q = query(productsCol(), orderBy("name", "asc"));
     const snap = await getDocs(q);
-    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+    let list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+    if (categoryId) {
+      list = list.filter(p => p.categoryId === categoryId);
+    }
+    if (onlyPublished) {
+      list = list.filter(p => p.status === "published");
+    }
+    return list;
   } catch (error) {
     console.error("Error getting products:", error);
     return [];
