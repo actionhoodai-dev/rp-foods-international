@@ -22,13 +22,13 @@ export default function AboutSection({ settings }: AboutSectionProps) {
         {/* Storytelling Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
           {/* Left Column: Image/Badge Layout */}
-          <div className="relative group">
+          <div className="relative group flex justify-center">
             <div className="absolute -top-4 -left-4 w-72 h-72 border-8 border-gold/10 -z-10 transition-transform duration-500 group-hover:-translate-y-2 group-hover:-translate-x-2" />
-            <div className="overflow-hidden border border-gray-100 shadow-xl">
+            <div className="overflow-hidden border border-gray-150 shadow-xl aspect-square w-full max-w-[450px] bg-white">
               <img 
-                src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=800" 
-                alt="Indian Spice Plantation and Processing" 
-                className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-105"
+                src="/images/logo_mascot.jpg" 
+                alt="RP Foods International Mascot Logo" 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
             <div className="absolute bottom-6 -right-6 bg-maroon text-white p-6 shadow-2xl max-w-xs border border-maroon-dark">
