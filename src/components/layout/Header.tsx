@@ -18,6 +18,9 @@ export default function Header({ companyName, phone }: HeaderProps) {
 
   // Check if current page is the homepage. We can make the header transparent only on the homepage Hero.
   const isHome = pathname === "/";
+  const isAdmin = pathname?.startsWith("/admin");
+
+  if (isAdmin) return null;
 
   useEffect(() => {
     const handleScroll = () => {

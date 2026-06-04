@@ -1,14 +1,23 @@
-import Link from "next/link";
-import { Phone, Mail, Globe } from "lucide-react";
-import { CompanySettings } from "@/types";
+"use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Phone, Mail, Globe } from "lucide-react";
+import { CompanySettings, Category } from "@/types";
 
 interface FooterProps {
   settings: CompanySettings;
+  categories?: Category[];
 }
 
-export default function Footer({ settings }: FooterProps) {
+export default function Footer({ settings, categories = [] }: FooterProps) {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin");
+
+  if (isAdmin) return null;
+
+  const footerCategories = categories.slice(0, 5);
 
   return (
     <footer className="bg-[#1C1C1C] text-white/80 pt-16 pb-8 border-t border-gray-800">
@@ -57,15 +66,19 @@ export default function Footer({ settings }: FooterProps) {
               Categories
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
-              <li>
-                <Link href="/products?category=spice-powders" className="hover:text-gold transition-colors duration-200">Spice Powders</Link>
-              </li>
-              <li>
-                <Link href="/products?category=masalas" className="hover:text-gold transition-colors duration-200">Masalas</Link>
-              </li>
-              <li>
-                <Link href="/products?category=non-veg-blends" className="hover:text-gold transition-colors duration-200">Non-Veg Blends</Link>
-              </li>
+              {footerCategories.length === 0 ? (
+                <li>
+                  <Link href="/products" className="hover:text-gold transition-colors duration-200">All Products</Link>
+                </li>
+              ) : (
+                footerCategories.map((cat) => (
+                  <li key={cat.id}>
+                    <Link href={`/products?category=${cat.slug}`} className="hover:text-gold transition-colors duration-200">
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
 

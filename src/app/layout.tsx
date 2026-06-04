@@ -3,8 +3,8 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { getCompanySettings } from "@/lib/firebase/db";
-import { CompanySettings } from "@/types";
+import { getCompanySettings, getCategories } from "@/lib/firebase/db";
+import { CompanySettings, Category } from "@/types";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -76,6 +76,14 @@ export default async function RootLayout({
   // Fetch settings dynamically from database (SSG / SSR Safe fallback)
   const settings = await getCompanySettings() || defaultSettings;
 
+  // Fetch active categories dynamically
+  let categories: Category[] = [];
+  try {
+    categories = await getCategories(true);
+  } catch (err) {
+    console.error("Failed to load categories for root layout:", err);
+  }
+
   return (
     <html
       lang="en"
@@ -84,7 +92,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col bg-white text-charcoal font-sans selection:bg-maroon selection:text-white">
         <Header companyName={settings.name} phone={settings.phoneNumbers[0]} />
         <main className="flex-grow">{children}</main>
-        <Footer settings={settings} />
+        <Footer settings={settings} categories={categories} />
       </body>
     </html>
   );
