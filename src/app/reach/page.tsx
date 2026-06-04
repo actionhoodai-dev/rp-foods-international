@@ -67,21 +67,21 @@ export default async function ReachPage() {
       capacity: "25kg / 50kg capacity",
       suitability: "Best for wholesale raw spice powders & turmeric fingers",
       desc: "Double-walled PP bags with inner food-grade LDPE liner (min 50-micron thickness) to protect dry powders from external moisture and prevent flavor leakage.",
-      image: "https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/products/turmeric-powder.jpg", // reuse seeded assets
+      image: "/images/pack_bag.png",
     },
     {
       title: "Multi-Layer Kraft Sacks",
       capacity: "15kg / 20kg / 25kg capacity",
       suitability: "Recommended for high-value ground masalas & culinary blends",
       desc: "Made from multi-ply organic kraft paper with internal barrier coatings to lock in natural volatile oils and aroma profiles during long ocean voyages.",
-      image: "https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/products/chilli-powder.jpg",
+      image: "/images/pack_sack.png",
     },
     {
       title: "Retail Vacuum Stand-up Pouches",
       capacity: "100g / 250g / 500g / 1kg capacity",
       suitability: "Ideal for grocery chains, supermarkets & private labels",
       desc: "Premium metallized polyester-laminated stand-up pouches with zip lock features. Vacuum packed or nitrogen flushed for superior fresh shelf-life.",
-      image: "https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/products/sambar-powder.jpg",
+      image: "/images/pack_pouch.png",
     }
   ];
 
