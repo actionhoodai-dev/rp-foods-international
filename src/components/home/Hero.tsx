@@ -23,12 +23,19 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#4A0A12] via-[#2F060B] to-[#1C1C1C] text-white pt-20">
+    <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden text-white pt-24 pb-32">
+      {/* Background Image generated from Gemini */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/home_hero.png')" }}
+      />
+      {/* Gradient overlay to ensure text readability and match premium branding */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#4A0A12]/95 via-[#2F060B]/90 to-[#1C1C1C]/95 mix-blend-multiply" />
       
       {/* Background World Map Vector Grid Overlay */}
       <div 
         ref={mapContainerRef} 
-        className="absolute inset-0 opacity-15 pointer-events-none bg-[url('https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/banners/world-map-grid.svg')] bg-cover bg-center mix-blend-overlay scale-105"
+        className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://res.cloudinary.com/djwogp0es/image/upload/v1717436000/rp-foods/banners/world-map-grid.svg')] bg-cover bg-center mix-blend-overlay scale-105"
       />
 
       {/* Floating subtle spice leaf/seed assets */}

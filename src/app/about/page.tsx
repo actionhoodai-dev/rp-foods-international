@@ -52,7 +52,7 @@ export default async function AboutPage() {
     <div className="bg-white min-h-screen pt-28 pb-20">
       
       {/* Banner */}
-      <div className="relative py-24 mb-16 bg-cover bg-center overflow-hidden bg-[url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=1600')]">
+      <div className="relative py-24 mb-16 bg-cover bg-center overflow-hidden bg-[url('/images/about_hero.png')]">
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/90 to-charcoal/40" />
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
           <div className="flex flex-col gap-2 text-white">
