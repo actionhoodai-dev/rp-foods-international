@@ -1,31 +1,21 @@
 "use server";
 
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { Inquiry } from "@/types";
 
 export async function sendInquiryEmail(inquiry: Omit<Inquiry, "id">): Promise<{ success: boolean; error?: string }> {
   try {
-    const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
-    const smtpPort = parseInt(process.env.SMTP_PORT || "465");
-    const smtpUser = process.env.SMTP_USER;
-    const smtpPass = process.env.SMTP_PASS;
+    const resendApiKey = process.env.RESEND_API_KEY;
     const emailTo = process.env.EMAIL_TO || "rpfoodspowder@gmail.com";
+    const resendFrom = process.env.RESEND_FROM || "onboarding@resend.dev";
 
-    // If SMTP details are not configured, log it and return success (dry run fallback)
-    if (!smtpUser || !smtpPass) {
-      console.warn("SMTP user or password not configured in environment variables. Email notification was skipped, but inquiry is saved in Firestore.");
+    // If Resend API Key is not configured, log it and return success (dry run fallback)
+    if (!resendApiKey) {
+      console.warn("RESEND_API_KEY not configured in environment variables. Email notification was skipped, but inquiry is saved in Firestore.");
       return { success: true };
     }
 
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpPort === 465,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+    const resend = new Resend(resendApiKey);
 
     const isProduct = inquiry.type === "product";
     const subject = isProduct 
@@ -115,18 +105,18 @@ http://localhost:3000/admin
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"RP Foods Export Portal" <${smtpUser}>`,
+    await resend.emails.send({
+      from: resendFrom,
       to: emailTo,
       subject: subject,
       text: textContent,
       html: htmlContent,
     });
 
-    console.log(`Inquiry email notification successfully sent to ${emailTo}`);
+    console.log(`Inquiry email notification successfully sent via Resend to ${emailTo}`);
     return { success: true };
   } catch (error: any) {
-    console.error("Error sending inquiry email notification:", error);
+    console.error("Error sending inquiry email notification via Resend:", error);
     return { success: false, error: error.message || "Failed to send email notification." };
   }
 }
