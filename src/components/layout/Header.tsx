@@ -127,7 +127,10 @@ export default function Header({ companyName, phone }: HeaderProps) {
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 top-[70px] bg-white z-40 flex flex-col p-6 animate-in fade-in slide-in-from-top duration-300 border-t border-gray-100">
+        <div 
+          className="md:hidden fixed inset-x-0 bottom-0 top-[70px] z-50 flex flex-col p-6 animate-in fade-in slide-in-from-top duration-300 border-t border-gray-100 overflow-y-auto"
+          style={{ backgroundColor: "#ffffff" }}
+        >
           <nav className="flex flex-col gap-6 text-lg font-semibold text-charcoal">
             {navLinks.map((link) => (
               <Link
