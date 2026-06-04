@@ -363,7 +363,9 @@ export default function AdminProductsPage() {
           <Label className="text-[9px] uppercase font-bold text-gray-400">Filter Category</Label>
           <Select value={filterCategory} onValueChange={(val) => setFilterCategory(val || "all")}>
             <SelectTrigger className="rounded-none border-gray-300 h-9 text-xs">
-              <SelectValue placeholder="All Categories" />
+              <SelectValue placeholder="All Categories">
+                {filterCategory === "all" ? "All Categories" : categories.find(c => c.id === filterCategory)?.name || "Select Category"}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent className="rounded-none">
               <SelectItem value="all">All Categories</SelectItem>
@@ -516,7 +518,9 @@ export default function AdminProductsPage() {
                   <Label className="text-[10px] uppercase font-bold text-gray-400">Assign Category</Label>
                   <Select value={categoryId} onValueChange={(val) => setCategoryId(val || "")}>
                     <SelectTrigger className="rounded-none border-gray-300 h-9 text-xs">
-                      <SelectValue placeholder="Select Category" />
+                      <SelectValue placeholder="Select Category">
+                        {categories.find(c => c.id === categoryId)?.name || "Select Category"}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent className="rounded-none">
                       {categories.map((c) => (
@@ -530,7 +534,9 @@ export default function AdminProductsPage() {
                   <Label className="text-[10px] uppercase font-bold text-gray-400">Publish Status</Label>
                   <Select value={status} onValueChange={(val: any) => setStatus(val)}>
                     <SelectTrigger className="rounded-none border-gray-300 h-9 text-xs">
-                      <SelectValue />
+                      <SelectValue>
+                        {status === "published" ? "Published" : "Draft"}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent className="rounded-none">
                       <SelectItem value="draft">Draft (Private)</SelectItem>
